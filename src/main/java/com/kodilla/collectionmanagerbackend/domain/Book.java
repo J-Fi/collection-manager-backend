@@ -14,7 +14,8 @@ import java.util.List;
 public class Book {
     private String isbn;
     private String title;
-    private List<String> authorsList;
+    //private List<String> authorsList;
+    private String author;
     private Integer publishYear;
     private Double price;
     private String publisherName;
