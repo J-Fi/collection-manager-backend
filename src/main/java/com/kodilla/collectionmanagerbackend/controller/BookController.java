@@ -1,49 +1,41 @@
 package com.kodilla.collectionmanagerbackend.controller;
 
 import com.kodilla.collectionmanagerbackend.domain.Book;
-import com.kodilla.collectionmanagerbackend.service.DbService;
+import com.kodilla.collectionmanagerbackend.domain.BookDto;
+import com.kodilla.collectionmanagerbackend.mapper.BookMapper;
+import com.kodilla.collectionmanagerbackend.service.BookDbService;
+import com.kodilla.collectionmanagerbackend.service.BooksCollectionDbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
-@RequestMapping("/v1")
+@RequestMapping("/v1/book")
 public class BookController {
 
     @Autowired
-    private DbService dbService;
+    private BookDbService bookDbService;
 
-    @GetMapping("/{userId}/{collectionId}")
-    public List<Book> findAllBooksInCollection(@PathVariable String userId, @PathVariable String collectionId) {
-        System.out.println("The method findAllBooksInCollection has been just called...");
-        return dbService.createList(userId, collectionId);
+    @Autowired
+    private BooksCollectionDbService booksCollectionDbService;
+
+    @Autowired
+    private BookMapper bookMapper;
+
+    @GetMapping("/{bookId}")
+    public BookDto getBookById(@PathVariable Long bookId) {
+        return bookMapper.mapToBookDto(bookDbService.findById(bookId));
     }
 
-    @GetMapping("/{userId}")
-    public List<Book> findAllBooksOfUser(@PathVariable String userId) {
-        System.out.println("The method findAllBooks has been just called...");
-        return dbService.createList(userId);
+    @PostMapping("/{booksCollectionId}")
+    public Book createBook(@PathVariable Long booksCollectionId, @RequestBody BookDto bookDto) {
+        Book book = bookMapper.mapToBook(bookDto);
+        System.out.println(book.toString());
+        book.setBooksCollection(booksCollectionDbService.findById(booksCollectionId));
+        return bookDbService.saveBook(book);
     }
 
-    @GetMapping
-    public List<Book> findAllBooks() {
-        System.out.println("The method findAllBooks has been just called...");
-        return dbService.createList();
-    }
-
-    @PostMapping
-    public Book createBook(@RequestBody Book book) {
-        return book;
-    }
-
-    @DeleteMapping("/{userId}/{collectionId}/{isbn}")
-    public void deleteBook(@PathVariable String userId, @PathVariable String collectionId, @PathVariable String isbn) {
-
-    }
-
-    @PutMapping
-    public Book updateBook() {
-        return new Book("1", "Title4", "Author4", 1990,43.22, "Czarna owca", "Opinion 4");
+    @DeleteMapping("/{id}")
+    public void deleteBook(@PathVariable Long id) {
+        bookDbService.deleteBook(id);
     }
 }
