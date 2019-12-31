@@ -18,6 +18,9 @@ public class BookDto {
     @JsonProperty("isbn")
     private String isbn;
 
+    @JsonProperty("isbn13")
+    private String isbn13;
+
     @JsonProperty("title")
     private String title;
 
@@ -33,6 +36,9 @@ public class BookDto {
 
     @JsonProperty("authors")
     private List<Author> authors;
+
+    @JsonProperty("subjects")
+    private List<Subject> subjects;
 
     @JsonProperty("date_published")
     private Integer publishDate;

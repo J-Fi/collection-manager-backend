@@ -31,6 +31,10 @@ public class Book {
     @Column(name = "isbn")
     private String isbn;
 
+    @NotNull
+    @Column(name = "isbn13")
+    private String isbn13;
+
     @Column(name = "title")
     private String title;
 
@@ -46,6 +50,9 @@ public class Book {
     @Column(name = "authors")
     private String authors;
 
+    @Column(name = "subjects")
+    private String subjects;
+
     @Column(name = "publish_date")
     private Integer publishDate;
 
@@ -56,13 +63,15 @@ public class Book {
     @JoinColumn(name = "books_collection_id")
     private BooksCollection booksCollection;
 
-    public Book(String isbn, String title, String publisher, String synopsys, String image, String authors, Integer publishDate) {
+    public Book(String isbn, String isbn13, String title, String publisher, String synopsys, String image, String authors, String subjects, Integer publishDate) {
         this.isbn = isbn;
+        this.isbn13 = isbn13;
         this.title = title;
         this.publisher = publisher;
         this.synopsys = synopsys;
         this.image = image;
         this.authors = authors;
+        this.subjects = subjects;
         this.publishDate = publishDate;
     }
 
@@ -70,11 +79,13 @@ public class Book {
     public String toString() {
         return "Book{" +
                 "isbn='" + isbn + '\'' +
+                ", isbn13='" + isbn13 + '\'' +
                 ", title='" + title + '\'' +
                 ", publisher='" + publisher + '\'' +
                 ", synopsys='" + synopsys + '\'' +
                 ", image='" + image + '\'' +
                 ", authors='" + authors + '\'' +
+                ", subjects='" + subjects + '\'' +
                 ", publishDate=" + publishDate +
                 '}';
     }
