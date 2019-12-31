@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.lang.Nullable;
 
 import javax.persistence.Lob;
 import java.util.List;
@@ -37,6 +38,7 @@ public class BookDto {
     @JsonProperty("authors")
     private List<Author> authors;
 
+    @Nullable
     @JsonProperty("subjects")
     private List<Subject> subjects;
 

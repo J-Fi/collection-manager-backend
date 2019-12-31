@@ -6,6 +6,7 @@ import com.kodilla.collectionmanagerbackend.domain.BookDto;
 import com.kodilla.collectionmanagerbackend.domain.Subject;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -26,9 +27,11 @@ public class BookMapper {
     }
 
     public String mapSubjectsListToString(List<Subject> subjects) {
-        String s = subjects.stream().map(Object::toString).collect(Collectors.joining("; "));
-        System.out.println("String: " + s);
-        return s;
+        if (subjects != null) {
+            String s = subjects.stream().map(Object::toString).collect(Collectors.joining("; "));
+            System.out.println("String: " + s);
+        }
+        return "Unavailable";
     }
 
     public List<Subject> mapStringToSubjectsList(String subjects) {
