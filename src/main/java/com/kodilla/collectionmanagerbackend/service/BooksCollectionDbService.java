@@ -11,8 +11,8 @@ public class BooksCollectionDbService {
     @Autowired
     private BooksCollectionRepository booksCollectionRepo;
 
-    public BooksCollection saveBooksCollection (BooksCollection booksCOllection) {
-        return booksCollectionRepo.save(booksCOllection);
+    public BooksCollection saveBooksCollection (BooksCollection booksCollection) {
+        return booksCollectionRepo.save(booksCollection);
     }
 
     public void deleteBooksCollection(final Long id) {

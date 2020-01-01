@@ -33,4 +33,15 @@ public class UserCommentOnBook {
     @OneToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     @JoinColumn(name = "book_id")
     private Book book;
+
+    public UserCommentOnBook(Date date, String content) {
+        this.date = date;
+        this.content = content;
+    }
+
+    public UserCommentOnBook(Date date, String content, Book book) {
+        this.date = date;
+        this.content = content;
+        this.book = book;
+    }
 }
