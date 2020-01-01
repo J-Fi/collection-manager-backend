@@ -2,6 +2,7 @@ package com.kodilla.collectionmanagerbackend.controller;
 
 import com.kodilla.collectionmanagerbackend.domain.BookDto;
 import com.kodilla.collectionmanagerbackend.isbndb.client.IsbndbClient;
+import com.kodilla.collectionmanagerbackend.service.IsbndbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,12 +17,12 @@ import java.util.Optional;
 public class IsbndbController {
 
     @Autowired
-    private IsbndbClient isbndbClient;
+    private IsbndbService isbndbService;
 
     @GetMapping("/{isbn}")
     public BookDto getBookDto(@PathVariable String isbn) {
         try {
-            BookDto bookResponse = isbndbClient.getJsonBookDto(isbn).getBody().getBookDto();
+            BookDto bookResponse = isbndbService.getJsonBookDto(isbn);
             return Optional.ofNullable(bookResponse).orElse(new BookDto());
         } catch (RestClientException e) {
             return new BookDto();
