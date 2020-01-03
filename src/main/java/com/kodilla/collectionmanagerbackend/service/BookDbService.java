@@ -15,7 +15,11 @@ public class BookDbService {
     @Autowired
     private BookRepository bookRepo;
 
-    public Book saveBook (Book book) {
+    @Autowired
+    private BooksCollectionDbService booksCollectionDbService;
+
+    public Book saveBook (Book book, Long booksCollectionId) {
+        book.setBooksCollection(booksCollectionDbService.findById(booksCollectionId));
         return bookRepo.save(book);
     }
 

@@ -42,4 +42,10 @@ public class BooksCollection {
     public BooksCollection(String collectionName) {
         this.collectionName = collectionName;
     }
+
+    public BooksCollection(Long booksCollectionId, String collectionName) {
+        this.booksCollectionId = booksCollectionId;
+        this.collectionName = collectionName;
+    }
+
 }

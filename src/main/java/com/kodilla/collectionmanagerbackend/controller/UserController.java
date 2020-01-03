@@ -24,11 +24,11 @@ public class UserController {
         return userMapper.mapToUserDto(userDbService.findById(userId));
     }
 
-    @PostMapping("/")
-    public User createUser(@RequestBody UserDto userDto) {
+    @PostMapping("/create")
+    public UserDto createUser(@RequestBody UserDto userDto) {
         User user = userMapper.mapToUser(userDto);
-        System.out.println(user.toString());
-        return userDbService.saveUser(user);
+        //System.out.println(user.toString());
+        return userMapper.mapToUserDto(userDbService.saveUser(user));
     }
 
     @DeleteMapping("/{id}")

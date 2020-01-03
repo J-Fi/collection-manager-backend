@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -32,7 +33,7 @@ public class User {
    private String lastName;
 
    @Column(name = "birthday_date")
-   private Date birthday;
+   private String birthday;
 
    @Column(name = "email")
    private String email;
@@ -43,7 +44,7 @@ public class User {
    @Column(name = "password")
    private String password;
 
-   public User(String firstName, String lastName, Date birthday, String email, String login, String password) {
+   public User(String firstName, String lastName, String birthday, String email, String login, String password) {
       this.firstName = firstName;
       this.lastName = lastName;
       this.birthday = birthday;

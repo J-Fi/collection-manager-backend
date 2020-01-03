@@ -27,11 +27,11 @@ public class BookController {
     }
 
     @PostMapping("/{booksCollectionId}")
-    public Book createBook(@PathVariable Long booksCollectionId, @RequestBody BookDto bookDto) {
+    public BookDto createBook(@PathVariable Long booksCollectionId, @RequestBody BookDto bookDto) {
         Book book = bookMapper.mapToBook(bookDto);
-        System.out.println(book.toString());
-        book.setBooksCollection(booksCollectionDbService.findById(booksCollectionId));
-        return bookDbService.saveBook(book);
+        //System.out.println(book.toString());
+
+        return bookMapper.mapToBookDto(bookDbService.saveBook(book, booksCollectionId));
     }
 
     @DeleteMapping("/{id}")

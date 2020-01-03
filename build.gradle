@@ -36,6 +36,9 @@ dependencies {
     }
     runtimeOnly 'mysql:mysql-connector-java'
     //testImplementation 'org.springframework.security:spring-security-test'
+    implementation 'com.google.code.gson:gson:2.8.6'
+    // https://mvnrepository.com/artifact/org.jboss.resteasy/resteasy-jaxrs
+    //compile group: 'org.jboss.resteasy', name: 'resteasy-jaxrs', version: '3.9.3.Final'
 }
 
 test {

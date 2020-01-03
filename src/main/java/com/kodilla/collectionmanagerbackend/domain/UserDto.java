@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -23,7 +24,7 @@ public class UserDto {
     private String lastName;
 
     @JsonProperty("birthday")
-    private Date birthday;
+    private String birthday;
 
     @JsonProperty("email")
     private String email;
