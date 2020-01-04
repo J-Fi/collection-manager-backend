@@ -1,10 +1,7 @@
 package com.kodilla.collectionmanagerbackend.controller;
 
 import com.google.gson.Gson;
-import com.kodilla.collectionmanagerbackend.domain.Author;
-import com.kodilla.collectionmanagerbackend.domain.Book;
-import com.kodilla.collectionmanagerbackend.domain.BookDto;
-import com.kodilla.collectionmanagerbackend.domain.Subject;
+import com.kodilla.collectionmanagerbackend.domain.*;
 import com.kodilla.collectionmanagerbackend.mapper.BookMapper;
 import com.kodilla.collectionmanagerbackend.service.BookDbService;
 import com.kodilla.collectionmanagerbackend.service.BooksCollectionDbService;
@@ -55,13 +52,13 @@ public class BookControllerTest {
         listAuthors.add(author);
         listSubjects.add(subject);
 
-        BookDto bookDto = new BookDto("1234", "12345",
+        BookToFrontendDto bookToFrontendDto = new BookToFrontendDto("1234", "12345",
                 "Title1", "Publisher1",
                 "Synopsys1", "url to image",
-                listAuthors, listSubjects,
+                "A1", "S1",
                 2021);
 
-        when(bookMapper.mapToBookDto(bookDbService.findById(1L))).thenReturn(bookDto);
+        when(bookMapper.mapToBookToFrontendDto(bookDbService.findById(1L))).thenReturn(bookToFrontendDto);
 
         //When & Then
         mockMvc.perform(get("/v1/book/{id}", 1L).contentType(MediaType.APPLICATION_JSON))
@@ -78,6 +75,11 @@ public class BookControllerTest {
     }
 
     @Test
+    public void shouldGetBooksCollection() throws Exception {
+
+    }
+
+    @Test
     public void shouldCreateBook() throws Exception {
         //Given
         Author author = new Author("A1");
@@ -89,10 +91,11 @@ public class BookControllerTest {
         listAuthors.add(author);
         listSubjects.add(subject);
 
-        BookDto bookDto = new BookDto("1234", "12345",
+
+        BookToFrontendDto bookToFrontendDto = new BookToFrontendDto("1234", "12345",
                 "Title1", "Publisher1",
                 "Synopsys1", "url to image",
-                listAuthors, listSubjects,
+                "A1", "S1",
                 2021);
 
         Book book = new Book("1234", "12345",
@@ -101,10 +104,10 @@ public class BookControllerTest {
                 "A1", "S1",
                 2021);
 
-        when(bookMapper.mapToBookDto(bookDbService.saveBook(book, 1L))).thenReturn(bookDto);
+        when(bookMapper.mapToBookToFrontendDto(bookDbService.saveBook(book, 1L))).thenReturn(bookToFrontendDto);
 
         Gson gson = new Gson();
-        String jsonContent = gson.toJson(bookDto);
+        String jsonContent = gson.toJson(bookToFrontendDto);
 
         //When & Then
         mockMvc.perform(post("/v1/book/{booksCollectionId}", 1L)

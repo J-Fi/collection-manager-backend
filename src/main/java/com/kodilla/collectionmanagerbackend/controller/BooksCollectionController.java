@@ -10,6 +10,8 @@ import com.kodilla.collectionmanagerbackend.service.UserDbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/v1/books-collection")
 public class BooksCollectionController {

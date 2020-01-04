@@ -5,9 +5,9 @@ import com.kodilla.collectionmanagerbackend.repository.BookRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @Service
 public class BookDbService {
@@ -30,4 +30,13 @@ public class BookDbService {
     public Book findById(final Long id) {
         return bookRepo.findById(id).orElse(new Book());
     }
+
+    public List<Book> fetchBooksByBooksCollectionId(Long booksCollectionId) {
+        List<Book> list = Optional.ofNullable(bookRepo.findAll()).orElse(new ArrayList<>());
+        List<Book> listFiltered = list.stream()
+                .filter(book -> (book.getBooksCollection().getBooksCollectionId()).equals(booksCollectionId))
+                .collect(Collectors.toList());
+        return listFiltered;
+    }
+
 }

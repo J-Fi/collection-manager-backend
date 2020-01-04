@@ -56,9 +56,6 @@ public class Book {
     @Column(name = "publish_date")
     private Integer publishDate;
 
-    @Transient
-    private Long booksCollectionId;
-
     @ManyToOne
     @JoinColumn(name = "books_collection_id")
     private BooksCollection booksCollection;
@@ -85,7 +82,6 @@ public class Book {
         this.authors = authors;
         this.subjects = subjects;
         this.publishDate = publishDate;
-        this.booksCollectionId = booksCollectionId;
     }
 
 

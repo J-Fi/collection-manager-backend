@@ -1,13 +1,11 @@
 package com.kodilla.collectionmanagerbackend.mapper;
 
-import com.kodilla.collectionmanagerbackend.domain.Author;
-import com.kodilla.collectionmanagerbackend.domain.Book;
-import com.kodilla.collectionmanagerbackend.domain.BookDto;
-import com.kodilla.collectionmanagerbackend.domain.Subject;
+import com.kodilla.collectionmanagerbackend.domain.*;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -30,31 +28,38 @@ public class BookMapper {
         if (subjects != null) {
             String s = subjects.stream().map(Object::toString).collect(Collectors.joining("; "));
             System.out.println("String: " + s);
+            return s;
         }
         return "Unavailable";
     }
 
     public List<Subject> mapStringToSubjectsList(String subjects) {
-        List<Subject> list = Stream.of(subjects.split("; ")).map(subject -> new Subject(subject)).collect(Collectors.toList());
-        System.out.println(list.size());
-        return list;
+        if (subjects != null) {
+            List<Subject> list = Stream.of(subjects.split("; ")).map(subject -> new Subject(subject)).collect(Collectors.toList());
+            System.out.println(list.size());
+            return list;
+        }
+        return new ArrayList<>();
     }
 
-    public BookDto mapToBookDto(Book book) {
-        return new BookDto(
+    public BookToFrontendDto mapToBookToFrontendDto(Book book) {
+        return new BookToFrontendDto(
+                book.getBookId(),
                 book.getIsbn(),
                 book.getIsbn13(),
                 book.getTitle(),
                 book.getPublisher(),
                 book.getSynopsys(),
                 book.getImage(),
-                mapStringToAuthorsList(book.getAuthors()),
-                mapStringToSubjectsList(book.getSubjects()),
-                book.getPublishDate());
+                book.getAuthors(),
+                book.getSubjects(),
+                book.getPublishDate(),
+                book.getBooksCollection().getBooksCollectionId());
     }
 
-    public Book mapToBook(BookDto bookDto) {
-        return new Book(bookDto.getIsbn(),
+    public BookToFrontendDto mapToBookToFrontendDto(BookDto bookDto) {
+        return new BookToFrontendDto(
+                bookDto.getIsbn(),
                 bookDto.getIsbn13(),
                 bookDto.getTitle(),
                 bookDto.getPublisher(),
@@ -63,5 +68,28 @@ public class BookMapper {
                 mapAuthorsListToString(bookDto.getAuthors()),
                 mapSubjectsListToString(bookDto.getSubjects()),
                 bookDto.getPublishDate());
+    }
+
+    public Book mapToBook(BookToFrontendDto bookToFrontendDto) {
+        return new Book(bookToFrontendDto.getIsbn(),
+                bookToFrontendDto.getIsbn13(),
+                bookToFrontendDto.getTitle(),
+                bookToFrontendDto.getPublisher(),
+                bookToFrontendDto.getSynopsys(),
+                bookToFrontendDto.getImage(),
+                bookToFrontendDto.getAuthors(),
+                bookToFrontendDto.getSubjects(),
+                bookToFrontendDto.getPublishDate());
+    }
+
+    public List<BookToFrontendDto> mapToBookToFrontendDtoList(List<Book> bookList) {
+        return bookList.stream().
+                map(book -> new BookToFrontendDto(book.getBookId(), book.getIsbn(),
+                        Optional.ofNullable(book.getIsbn13()).orElse("Unavailable"), book.getTitle(),
+                        book.getPublisher(), Optional.ofNullable(book.getSynopsys()).orElse("Unavailable"),
+                        book.getImage(), book.getAuthors(),
+                        Optional.ofNullable(book.getSubjects()).orElse("Unavailable"), book.getPublishDate(),
+                        book.getBooksCollection().getBooksCollectionId())).
+                collect(Collectors.toList());
     }
 }

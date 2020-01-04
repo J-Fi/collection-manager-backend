@@ -1,7 +1,9 @@
 package com.kodilla.collectionmanagerbackend.controller;
 
 import com.kodilla.collectionmanagerbackend.domain.BookDto;
+import com.kodilla.collectionmanagerbackend.domain.BookToFrontendDto;
 import com.kodilla.collectionmanagerbackend.isbndb.client.IsbndbClient;
+import com.kodilla.collectionmanagerbackend.mapper.BookMapper;
 import com.kodilla.collectionmanagerbackend.service.IsbndbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -19,13 +21,16 @@ public class IsbndbController {
     @Autowired
     private IsbndbService isbndbService;
 
+    @Autowired
+    private BookMapper bookMapper;
+
     @GetMapping("/{isbn}")
-    public BookDto getBookDto(@PathVariable String isbn) {
+    public BookToFrontendDto getBookToFrontendDto(@PathVariable String isbn) {
         try {
             BookDto bookResponse = isbndbService.getJsonBookDto(isbn);
-            return Optional.ofNullable(bookResponse).orElse(new BookDto());
+            return bookMapper.mapToBookToFrontendDto(Optional.ofNullable(bookResponse).orElse(new BookDto()));
         } catch (RestClientException e) {
-            return new BookDto();
+            return new BookToFrontendDto();
         }
     }
 }
