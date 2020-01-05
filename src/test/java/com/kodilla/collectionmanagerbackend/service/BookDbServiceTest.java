@@ -1,6 +1,7 @@
 package com.kodilla.collectionmanagerbackend.service;
 
 import com.kodilla.collectionmanagerbackend.domain.Book;
+import com.kodilla.collectionmanagerbackend.domain.BooksCollection;
 import com.kodilla.collectionmanagerbackend.repository.BookRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -30,10 +31,13 @@ public class BookDbServiceTest {
     @Test
     public void shouldFetchBooksByBooksCollectionId() {
         //Given
+        BooksCollection booksCollection1 = new BooksCollection(2L, "MyBooks2");
+        BooksCollection booksCollection2 = new BooksCollection(3L, "MyBooks3");
+
         List<Book> list = new ArrayList<>();
-        list.add(new Book("isbn1", "isbn131", "title1", "publisher1", "synopsys1", "image1", "authors1", "subjects1", 2012, 2L));
-        list.add(new Book("isbn2", "isbn132", "title2", "publisher2", "synopsys2", "image2", "authors2", "subjects2", 2011, 3L));
-        list.add(new Book("isbn3", "isbn133", "title3", "publisher3", "synopsys3", "image3", "authors3", "subjects3", 2003, 3L));
+        list.add(new Book("isbn1", "isbn131", "title1", "publisher1", "synopsys1", "image1", "authors1", "subjects1", 2012, booksCollection1));
+        list.add(new Book("isbn2", "isbn132", "title2", "publisher2", "synopsys2", "image2", "authors2", "subjects2", 2011, booksCollection2));
+        list.add(new Book("isbn3", "isbn133", "title3", "publisher3", "synopsys3", "image3", "authors3", "subjects3", 2003, booksCollection2));
 
         when(bookRepo.findAll()).thenReturn(list);
         //When

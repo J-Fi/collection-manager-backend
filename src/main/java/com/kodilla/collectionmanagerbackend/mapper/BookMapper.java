@@ -57,7 +57,7 @@ public class BookMapper {
                 book.getBooksCollection().getBooksCollectionId());
     }
 
-    public BookToFrontendDto mapToBookToFrontendDto(BookDto bookDto) {
+    public BookToFrontendDto mapToBookToFrontendDto2(BookDto bookDto) {
         return new BookToFrontendDto(
                 bookDto.getIsbn(),
                 bookDto.getIsbn13(),

@@ -27,8 +27,8 @@ public class IsbndbController {
     @GetMapping("/{isbn}")
     public BookToFrontendDto getBookToFrontendDto(@PathVariable String isbn) {
         try {
-            BookDto bookResponse = isbndbService.getJsonBookDto(isbn);
-            return bookMapper.mapToBookToFrontendDto(Optional.ofNullable(bookResponse).orElse(new BookDto()));
+            //BookDto bookResponse = ;
+            return bookMapper.mapToBookToFrontendDto2(Optional.ofNullable(isbndbService.getJsonBookDto(isbn)).orElse(new BookDto()));
         } catch (RestClientException e) {
             return new BookToFrontendDto();
         }

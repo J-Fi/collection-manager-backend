@@ -72,6 +72,7 @@ public class IsbndbControllerTest {
         //When & Then
         mockMvc.perform(get("/v1/isbndb/1234").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200))
+                .andExpect(jsonPath("$.bookId", is(1)))
                 .andExpect(jsonPath("$.isbn", is("1234")))
                 .andExpect(jsonPath("$.isbn13", is("12345")))
                 .andExpect(jsonPath("$.title", is("Title1")))
