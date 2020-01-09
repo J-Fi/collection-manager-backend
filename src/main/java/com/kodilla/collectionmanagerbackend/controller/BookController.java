@@ -2,6 +2,7 @@ package com.kodilla.collectionmanagerbackend.controller;
 
 import com.kodilla.collectionmanagerbackend.domain.Book;
 import com.kodilla.collectionmanagerbackend.domain.BookDto;
+import com.kodilla.collectionmanagerbackend.domain.BookFromFrontendDto;
 import com.kodilla.collectionmanagerbackend.domain.BookToFrontendDto;
 import com.kodilla.collectionmanagerbackend.mapper.BookMapper;
 import com.kodilla.collectionmanagerbackend.service.BookDbService;
@@ -35,10 +36,10 @@ public class BookController {
     }
 
     @PostMapping("/{booksCollectionId}")
-    public BookToFrontendDto createBook(@PathVariable Long booksCollectionId, @RequestBody BookToFrontendDto bookToFrontendDto) {
-        Book book = bookMapper.mapToBook(bookToFrontendDto);
+    public BookFromFrontendDto createBook(@PathVariable Long booksCollectionId, @RequestBody BookFromFrontendDto bookFromFrontendDto) {
+        Book book = bookMapper.mapBookFromFrontendDtoToBook(bookFromFrontendDto);
         //System.out.println(book.toString());
-        return bookMapper.mapToBookToFrontendDto(bookDbService.saveBook(book, booksCollectionId));
+        return bookMapper.mapBookToBookFromFrontendDto(bookDbService.saveBook(book, booksCollectionId));
     }
 
     @DeleteMapping("/{id}")

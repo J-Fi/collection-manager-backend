@@ -92,4 +92,20 @@ public class BookMapper {
                         book.getBooksCollection().getBooksCollectionId())).
                 collect(Collectors.toList());
     }
+
+    public Book mapBookFromFrontendDtoToBook (BookFromFrontendDto bookFromFrontendDto) {
+        return new Book(bookFromFrontendDto.getIsbn(), bookFromFrontendDto.getIsbn13(),
+                bookFromFrontendDto.getTitle(), bookFromFrontendDto.getPublisher(),
+                bookFromFrontendDto.getSynopsys(), bookFromFrontendDto.getImage(),
+                bookFromFrontendDto.getAuthors(), bookFromFrontendDto.getSubjects(),
+                bookFromFrontendDto.getPublishDate());
+    }
+
+    public BookFromFrontendDto mapBookToBookFromFrontendDto (Book book) {
+        return new BookFromFrontendDto(book.getIsbn(), book.getIsbn13(),
+                book.getTitle(), book.getPublisher(),
+                book.getSynopsys(), book.getImage(),
+                book.getAuthors(), book.getSubjects(),
+                book.getPublishDate());
+    }
 }
