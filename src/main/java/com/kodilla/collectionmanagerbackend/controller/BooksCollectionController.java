@@ -28,9 +28,9 @@ public class BooksCollectionController {
     @PostMapping("/{userId}")
     public void createBooksCollection(@PathVariable Long userId, @RequestBody BooksCollectionDto booksCollectionDto) {
         BooksCollection booksCollection = booksCollectionMapper.mapToBooksCollection(booksCollectionDto);
-        System.out.println(booksCollection.toString());
+        //System.out.println(booksCollection.toString());
         booksCollection.setUser(userDbService.findById(userId));
         booksCollectionDbService.saveBooksCollection(booksCollection);
-        System.out.println("Saving completed successfully!");
+        //System.out.println("Saving completed successfully!");
     }
 }

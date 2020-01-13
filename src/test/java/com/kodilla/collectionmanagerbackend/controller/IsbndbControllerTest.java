@@ -2,7 +2,9 @@ package com.kodilla.collectionmanagerbackend.controller;
 
 import com.kodilla.collectionmanagerbackend.domain.Author;
 import com.kodilla.collectionmanagerbackend.domain.BookDto;
+import com.kodilla.collectionmanagerbackend.domain.BookToFrontendDto;
 import com.kodilla.collectionmanagerbackend.domain.Subject;
+import com.kodilla.collectionmanagerbackend.mapper.BookMapper;
 import com.kodilla.collectionmanagerbackend.service.IsbndbService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -31,11 +33,14 @@ public class IsbndbControllerTest {
     @MockBean
     private IsbndbService isbndbService;
 
+    @MockBean
+    private BookMapper bookMapper;
+
     @Test
-    public void shouldFetchEmptyBookDto() throws Exception {
+    public void shouldFetchEmptyBookToFrontendDto() throws Exception {
         //Given
-        BookDto bookDto = new BookDto();
-        when(isbndbService.getJsonBookDto("1234")).thenReturn(bookDto);
+        BookToFrontendDto bookToFrontendDto = new BookToFrontendDto();
+        when(bookMapper.mapToBookToFrontendDto2(isbndbService.getJsonBookDto("1234"))).thenReturn(bookToFrontendDto);
         //When & Then
         mockMvc.perform(get("/v1/isbndb/1234").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200))
@@ -62,25 +67,25 @@ public class IsbndbControllerTest {
         listAuthors.add(author);
         listSubjects.add(subject);
 
-        BookDto bookDto = new BookDto("1234", "12345",
+        BookToFrontendDto bookToFrontendDto = new BookToFrontendDto("1234", "12345",
                 "Title1", "Publisher1",
                 "Synopsys1", "url to image",
-                listAuthors, listSubjects,
+                "A1", "Polska",
                 2021);
 
-        when(isbndbService.getJsonBookDto("1234")).thenReturn(bookDto);
+        when(bookMapper.mapToBookToFrontendDto2(isbndbService.getJsonBookDto("1234"))).thenReturn(bookToFrontendDto);
         //When & Then
         mockMvc.perform(get("/v1/isbndb/1234").contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().is(200))
-                .andExpect(jsonPath("$.bookId", is(1)))
+                //.andExpect(jsonPath("$.bookId", is(1)))
                 .andExpect(jsonPath("$.isbn", is("1234")))
                 .andExpect(jsonPath("$.isbn13", is("12345")))
                 .andExpect(jsonPath("$.title", is("Title1")))
                 .andExpect(jsonPath("$.publisher", is("Publisher1")))
                 .andExpect(jsonPath("$.synopsys", is("Synopsys1")))
                 .andExpect(jsonPath("$.image", is("url to image")))
-                .andExpect(jsonPath("$.authors", hasSize(1)))
-                .andExpect(jsonPath("$.subjects", hasSize(1)))
+                .andExpect(jsonPath("$.authors", is("A1")))
+                .andExpect(jsonPath("$.subjects", is("Polska")))
                 .andExpect(jsonPath("$.date_published", is(2021)));
     }
 

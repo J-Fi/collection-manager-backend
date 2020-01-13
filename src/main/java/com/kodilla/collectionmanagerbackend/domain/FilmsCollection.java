@@ -38,4 +38,8 @@ public class FilmsCollection {
             fetch = FetchType.LAZY
     )
     private List<Film> films = new ArrayList<>();
+
+    public FilmsCollection(String collectionName) {
+        this.collectionName = collectionName;
+    }
 }

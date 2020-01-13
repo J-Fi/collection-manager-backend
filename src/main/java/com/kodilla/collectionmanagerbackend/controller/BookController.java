@@ -42,6 +42,11 @@ public class BookController {
         return bookMapper.mapBookToBookFromFrontendDto(bookDbService.saveBook(book, booksCollectionId));
     }
 
+    @PutMapping("")
+    public void updateBook() {
+
+    }
+
     @DeleteMapping("/{id}")
     public void deleteBook(@PathVariable Long id) {
         bookDbService.deleteBook(id);
