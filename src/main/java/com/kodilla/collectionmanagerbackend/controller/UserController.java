@@ -1,9 +1,6 @@
 package com.kodilla.collectionmanagerbackend.controller;
 
-import com.kodilla.collectionmanagerbackend.domain.Book;
-import com.kodilla.collectionmanagerbackend.domain.BookDto;
-import com.kodilla.collectionmanagerbackend.domain.User;
-import com.kodilla.collectionmanagerbackend.domain.UserDto;
+import com.kodilla.collectionmanagerbackend.domain.*;
 import com.kodilla.collectionmanagerbackend.mapper.UserMapper;
 import com.kodilla.collectionmanagerbackend.service.UserDbService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,10 +21,15 @@ public class UserController {
         return userMapper.mapToUserDto(userDbService.findById(userId));
     }
 
+    @GetMapping("/email/{userEmail}")
+    public UserToFrontendDto getUserByEmail(@PathVariable String userEmail) {
+        return userMapper.mapToUserToFrontendDto(userDbService.findUserByEmail(userEmail));
+    }
+
+
     @PostMapping("/create")
     public UserDto createUser(@RequestBody UserDto userDto) {
         User user = userMapper.mapToUser(userDto);
-        //System.out.println(user.toString());
         return userMapper.mapToUserDto(userDbService.saveUser(user));
     }
 

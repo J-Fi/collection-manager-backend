@@ -7,8 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class BookToFrontendDto {
-    private Long bookId;
+public class BookToFrontendFromIsbndbDto {
     private String isbn;
     private String isbn13;
     private String title;
@@ -18,5 +17,4 @@ public class BookToFrontendDto {
     private String authors;
     private String subjects;
     private Integer publishDate;
-    private Long booksCollectionId;
 }

@@ -6,6 +6,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -18,12 +19,12 @@ public class UserCommentOnBookDto {
     private String content;
 
     @JsonProperty("date")
-    private Date date;
+    private LocalDate date;
 
     @JsonProperty("bookId")
     private Long bookId;
 
-    public UserCommentOnBookDto(String content, Date date) {
+    public UserCommentOnBookDto(String content, LocalDate date) {
         this.content = content;
         this.date = date;
     }

@@ -21,8 +21,7 @@ import java.util.Date;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.hamcrest.Matchers.*;
 import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -50,7 +49,7 @@ public class UserControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.firstName", is("Jan")))
                 .andExpect(jsonPath("$.lastName", is("Kal")))
-                //.andExpect(jsonPath("$.date", is(1973-1-20)))
+                .andExpect(jsonPath("$.birthday", is("1973-01-20")))
                 .andExpect(jsonPath("$.email", is("email")))
                 .andExpect(jsonPath("$.login", is("login")))
                 .andExpect(jsonPath("$.password", is("password")));
@@ -79,6 +78,14 @@ public class UserControllerTest {
                 .andExpect(jsonPath("$.email", is("email")))
                 .andExpect(jsonPath("$.login", is("login")))
                 .andExpect(jsonPath("$.password", is("password")));
+    }
+
+    @Test
+    public void shouldDeleteUser() throws Exception {
+        //Given
+        //When & Then
+        mockMvc.perform(delete("/v1/user/1").contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk());
     }
 
 }

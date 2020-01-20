@@ -1,8 +1,6 @@
 package com.kodilla.collectionmanagerbackend.service;
 
-import com.kodilla.collectionmanagerbackend.domain.Book;
 import com.kodilla.collectionmanagerbackend.domain.User;
-import com.kodilla.collectionmanagerbackend.domain.UserDto;
 import com.kodilla.collectionmanagerbackend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,5 +21,9 @@ public class UserDbService {
 
     public User findById(final Long id) {
         return userRepo.findById(id).orElse(new User());
+    }
+
+    public User findUserByEmail(String userEmail) {
+        return userRepo.getUserByEmail(userEmail);
     }
 }

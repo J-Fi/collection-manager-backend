@@ -39,10 +39,10 @@ public class UserCommentOnBookController {
     }
 
     @PostMapping("/{bookId}")
-    public UserCommentOnBook saveComment(@RequestBody UserCommentOnBookDto userCommentOnBookDto, @PathVariable Long bookId) {
+    public UserCommentOnBookDto saveComment(@RequestBody UserCommentOnBookDto userCommentOnBookDto, @PathVariable Long bookId) {
         UserCommentOnBook userCommentOnBook = userCommentOnBookMapper.mapToUserCommentOnBook(userCommentOnBookDto);
         userCommentOnBook.setBook(bookDbService.findById(bookId));
-        return commentOnBookDbService.saveComment(userCommentOnBook);
+        return userCommentOnBookMapper.mapToUserCommentOnBookDto(commentOnBookDbService.saveComment(userCommentOnBook));
     }
 
 }

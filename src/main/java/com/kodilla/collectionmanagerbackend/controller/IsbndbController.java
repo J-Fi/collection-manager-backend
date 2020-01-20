@@ -1,36 +1,23 @@
 package com.kodilla.collectionmanagerbackend.controller;
 
-import com.kodilla.collectionmanagerbackend.domain.BookDto;
-import com.kodilla.collectionmanagerbackend.domain.BookToFrontendDto;
-import com.kodilla.collectionmanagerbackend.isbndb.client.IsbndbClient;
-import com.kodilla.collectionmanagerbackend.mapper.BookMapper;
-import com.kodilla.collectionmanagerbackend.service.IsbndbService;
+import com.kodilla.collectionmanagerbackend.domain.BookToFrontendFromIsbndbDto;
+import com.kodilla.collectionmanagerbackend.isbndb.facade.IsbndbFacade;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.client.RestClientException;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.Optional;
-
+@CrossOrigin(origins = "*", allowedHeaders = "*")
 @RestController
 @RequestMapping("/v1/isbndb")
 public class IsbndbController {
 
-    @Autowired
-    private IsbndbService isbndbService;
+    public static float numberOfCalls = 0;
 
     @Autowired
-    private BookMapper bookMapper;
+    private IsbndbFacade isbndbFacade;
 
     @GetMapping("/{isbn}")
-    public BookToFrontendDto getBookToFrontendDto(@PathVariable String isbn) {
-        try {
-            //BookDto bookResponse = ;
-            return bookMapper.mapToBookToFrontendDto2(Optional.ofNullable(isbndbService.getJsonBookDto(isbn)).orElse(new BookDto()));
-        } catch (RestClientException e) {
-            return new BookToFrontendDto();
-        }
+    public BookToFrontendFromIsbndbDto getBookToFrontendFromIsbndbDto(@PathVariable String isbn) {
+        numberOfCalls++;
+        return isbndbFacade.getJsonBookDto(isbn);
     }
 }

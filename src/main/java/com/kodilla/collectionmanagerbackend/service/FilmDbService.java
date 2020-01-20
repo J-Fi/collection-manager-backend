@@ -41,4 +41,26 @@ public class FilmDbService {
                 .collect(Collectors.toList());
         return listFiltered;
     }
+
+    public Film updateFilm(final Long filmsCollectionId, final Long filmId, Film film) {
+        List<Film> filmsToUpdate = filmRepo.findAll().stream()
+                .filter(b -> b.getFilmsCollection().getFilmsCollectionId().equals(filmsCollectionId))
+                .filter(b -> b.getFilmId().equals(filmId))
+                .collect(Collectors.toList());
+
+        Film filmToUpdate = filmsToUpdate.get(0);
+
+        filmToUpdate.setFilmTitle(film.getFilmTitle());
+        filmToUpdate.setYear(film.getYear());
+        filmToUpdate.setRuntime(film.getRuntime());
+        filmToUpdate.setDirectorName(film.getDirectorName());
+        filmToUpdate.setWriters(film.getWriters());
+        filmToUpdate.setActors(film.getActors());
+        filmToUpdate.setPlot(film.getPlot());
+        filmToUpdate.setLanguage(film.getLanguage());
+        filmToUpdate.setCountry(film.getCountry());
+        filmToUpdate.setPosterLink(film.getPosterLink());
+        filmToUpdate.setProduction(film.getProduction());
+        return filmRepo.save(filmToUpdate);
+    }
 }

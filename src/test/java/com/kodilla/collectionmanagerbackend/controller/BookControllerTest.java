@@ -43,56 +43,53 @@ public class BookControllerTest {
     @Test
     public void shouldGetBookById() throws Exception {
         //Given
-        Author author = new Author("A1");
-        Subject subject = new Subject("Polska");
-
-        List<Author> listAuthors = new ArrayList<>();
-        List<Subject> listSubjects = new ArrayList<>();
-
-        listAuthors.add(author);
-        listSubjects.add(subject);
-
-        BookToFrontendDto bookToFrontendDto = new BookToFrontendDto("1234", "12345",
+        BookToFrontendDto bookToFrontendDto = new BookToFrontendDto(1L, "1234", "12345",
                 "Title1", "Publisher1",
                 "Synopsys1", "url to image",
                 "A1", "S1",
-                2021);
+                2021,1L);
 
         when(bookMapper.mapToBookToFrontendDto(bookDbService.findById(1L))).thenReturn(bookToFrontendDto);
 
         //When & Then
         mockMvc.perform(get("/v1/book/{id}", 1L).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
+                .andExpect(jsonPath("$.bookId", is(1)))
                 .andExpect(jsonPath("$.isbn", is("1234")))
                 .andExpect(jsonPath("$.isbn13", is("12345")))
                 .andExpect(jsonPath("$.title", is("Title1")))
                 .andExpect(jsonPath("$.publisher", is("Publisher1")))
                 .andExpect(jsonPath("$.synopsys", is("Synopsys1")))
                 .andExpect(jsonPath("$.image", is("url to image")))
-                .andExpect(jsonPath("$.authors", hasSize(1)))
-                .andExpect(jsonPath("$.subjects", hasSize(1)))
-                .andExpect(jsonPath("$.date_published", is(2021)));
+                .andExpect(jsonPath("$.authors", is("A1")))
+                .andExpect(jsonPath("$.subjects", is("S1")))
+                .andExpect(jsonPath("$.publishDate", is(2021)))
+                .andExpect(jsonPath("$.booksCollectionId", is(1)));
     }
 
     @Test
     public void shouldGetBooksCollection() throws Exception {
+        //Given
+        List<BookToFrontendDto> booksCollection = new ArrayList<>();
+        BookToFrontendDto bookToFrontendDto = new BookToFrontendDto(1L, "1234", "12345",
+                "Title1", "Publisher1",
+                "Synopsys1", "url to image",
+                "A1", "S1",
+                2021,1L);
+        booksCollection.add(bookToFrontendDto);
 
+        when(bookMapper.mapToBookToFrontendDtoList(bookDbService.fetchBooksByBooksCollectionId(1L))).thenReturn(booksCollection);
+
+        //When & Then
+        mockMvc.perform(get("/v1/book/list/{booksCollectionId}", 1L).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(1)));
     }
 
     @Test
     public void shouldCreateBook() throws Exception {
         //Given
-        Author author = new Author("A1");
-        Subject subject = new Subject("Polska");
-
-        List<Author> listAuthors = new ArrayList<>();
-        List<Subject> listSubjects = new ArrayList<>();
-
-        listAuthors.add(author);
-        listSubjects.add(subject);
-
-
-        BookToFrontendDto bookToFrontendDto = new BookToFrontendDto("1234", "12345",
+        BookFromFrontendDto bookFromFrontendDto = new BookFromFrontendDto("1234", "12345",
                 "Title1", "Publisher1",
                 "Synopsys1", "url to image",
                 "A1", "S1",
@@ -104,10 +101,10 @@ public class BookControllerTest {
                 "A1", "S1",
                 2021);
 
-        when(bookMapper.mapToBookToFrontendDto(bookDbService.saveBook(book, 1L))).thenReturn(bookToFrontendDto);
+        when(bookMapper.mapBookToBookFromFrontendDto(bookDbService.saveBook(book, 1L))).thenReturn(bookFromFrontendDto);
 
         Gson gson = new Gson();
-        String jsonContent = gson.toJson(bookToFrontendDto);
+        String jsonContent = gson.toJson(bookFromFrontendDto);
 
         //When & Then
         mockMvc.perform(post("/v1/book/{booksCollectionId}", 1L)
@@ -121,9 +118,49 @@ public class BookControllerTest {
                 .andExpect(jsonPath("$.publisher", is("Publisher1")))
                 .andExpect(jsonPath("$.synopsys", is("Synopsys1")))
                 .andExpect(jsonPath("$.image", is("url to image")))
-                .andExpect(jsonPath("$.authors", hasSize(1)))
-                .andExpect(jsonPath("$.subjects", hasSize(1)))
-                .andExpect(jsonPath("$.date_published", is(2021)));
+                .andExpect(jsonPath("$.authors", is("A1")))
+                .andExpect(jsonPath("$.subjects", is("S1")))
+                .andExpect(jsonPath("$.publishDate", is(2021)));
+    }
+
+    @Test
+    public void shouldUpdateBook() throws Exception {
+        //Given
+        BookFromFrontendDto bookFromFrontendDto = new BookFromFrontendDto("1234", "12345",
+                "Title1", "Publisher1",
+                "Synopsys1", "url to image",
+                "A1", "S1",
+                2021);
+
+        BookFromFrontendDto bookFromFrontendDtoUpdated = new BookFromFrontendDto("1234", "12345",
+                "Title1", "Publisher1",
+                "Synopsys2", "url to image",
+                "A1", "S2",
+                2021);
+
+        when(bookMapper.mapBookToBookFromFrontendDto(bookDbService
+                .updateBook(1L, 1L, bookMapper.mapBookFromFrontendDtoToBook(bookFromFrontendDto))))
+                .thenReturn(bookFromFrontendDtoUpdated);
+
+        Gson gson = new Gson();
+        String jsonContent = gson.toJson(bookFromFrontendDtoUpdated);
+
+        //When & Then
+        mockMvc.perform(put("/v1/book/{booksCollectionId}/{bookId}", 1L, 1L)
+                .contentType(MediaType.APPLICATION_JSON)
+                .characterEncoding("UTF-8")
+                .content(jsonContent))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.isbn", is("1234")))
+                .andExpect(jsonPath("$.isbn13", is("12345")))
+                .andExpect(jsonPath("$.title", is("Title1")))
+                .andExpect(jsonPath("$.publisher", is("Publisher1")))
+                .andExpect(jsonPath("$.synopsys", is("Synopsys2")))
+                .andExpect(jsonPath("$.image", is("url to image")))
+                .andExpect(jsonPath("$.authors", is("A1")))
+                .andExpect(jsonPath("$.subjects", is("S2")))
+                .andExpect(jsonPath("$.publishDate", is(2021)));
+
     }
 
     @Test

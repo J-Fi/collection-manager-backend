@@ -12,6 +12,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@NamedQuery(
+        name = "User.getUserByEmail",
+        query = "FROM User WHERE email = :EMAIL"
+)
+
 @Getter
 @Setter
 @AllArgsConstructor

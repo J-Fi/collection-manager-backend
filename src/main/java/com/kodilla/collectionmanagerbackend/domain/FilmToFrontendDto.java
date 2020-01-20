@@ -24,7 +24,8 @@ public class FilmToFrontendDto {
     private String production;
     private Long filmsCollectionId;
 
-    public FilmToFrontendDto(String filmTitle, String year, String runtime, String directorName, String writers, String actors, String plot, String language, String country, String posterLink, String production) {
+    public FilmToFrontendDto(String filmTitle, String year, String runtime, String directorName, String writers,
+                             String actors, String plot, String language, String country, String posterLink, String production) {
         this.filmTitle = filmTitle;
         this.year = year;
         this.runtime = runtime;

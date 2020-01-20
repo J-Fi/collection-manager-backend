@@ -8,6 +8,7 @@ import lombok.extern.java.Log;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -25,7 +26,7 @@ public class UserCommentOnBook {
     private Long commentId;
 
     @Column(name = "date")
-    private Date date;
+    private LocalDate date;
 
     @Column(name = "content", length = 65535, columnDefinition = "text")
     private String content;
@@ -34,12 +35,12 @@ public class UserCommentOnBook {
     @JoinColumn(name = "book_id")
     private Book book;
 
-    public UserCommentOnBook(Date date, String content) {
+    public UserCommentOnBook(LocalDate date, String content) {
         this.date = date;
         this.content = content;
     }
 
-    public UserCommentOnBook(Date date, String content, Book book) {
+    public UserCommentOnBook(LocalDate date, String content, Book book) {
         this.date = date;
         this.content = content;
         this.book = book;

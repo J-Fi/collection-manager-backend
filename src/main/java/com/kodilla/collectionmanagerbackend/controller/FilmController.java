@@ -1,9 +1,9 @@
 package com.kodilla.collectionmanagerbackend.controller;
 
-import com.kodilla.collectionmanagerbackend.domain.*;
-import com.kodilla.collectionmanagerbackend.mapper.BookMapper;
+import com.kodilla.collectionmanagerbackend.domain.Film;
+import com.kodilla.collectionmanagerbackend.domain.FilmFromFrontendDto;
+import com.kodilla.collectionmanagerbackend.domain.FilmToFrontendDto;
 import com.kodilla.collectionmanagerbackend.mapper.FilmMapper;
-import com.kodilla.collectionmanagerbackend.service.BookDbService;
 import com.kodilla.collectionmanagerbackend.service.FilmDbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,9 +16,6 @@ public class FilmController {
 
     @Autowired
     private FilmDbService filmDbService;
-
-/*    @Autowired
-    private BooksCollectionDbService booksCollectionDbService;*/
 
     @Autowired
     private FilmMapper filmMapper;
@@ -36,8 +33,12 @@ public class FilmController {
     @PostMapping("/{filmsCollectionId}")
     public FilmFromFrontendDto createFilm(@PathVariable Long filmsCollectionId, @RequestBody FilmFromFrontendDto filmFromFrontendDto) {
         Film film = filmMapper.mapFilmFromFrontendDtoToFilm(filmFromFrontendDto);
-        System.out.println("DANE FILMU: " + film.toString());
         return filmMapper.mapFilmToFilmFromFrontendDto(filmDbService.saveFilm(film, filmsCollectionId));
+    }
+
+    @PutMapping("/{filmsCollectionId}/{filmId}")
+    public FilmFromFrontendDto updateFilm(@PathVariable Long filmsCollectionId, @PathVariable Long filmId, @RequestBody FilmFromFrontendDto filmFromFrontendDto) {
+        return filmMapper.mapFilmToFilmFromFrontendDto(filmDbService.updateFilm(filmsCollectionId, filmId, filmMapper.mapFilmFromFrontendDtoToFilm(filmFromFrontendDto)));
     }
 
     @DeleteMapping("/{id}")

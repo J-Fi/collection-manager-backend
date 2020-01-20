@@ -5,6 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Getter
@@ -12,7 +13,7 @@ import java.util.Date;
 @NoArgsConstructor
 public class UserCommentOnBookJsonDto {
 
-    private Date date;
+    private LocalDate date;
 
     private String content;
 }

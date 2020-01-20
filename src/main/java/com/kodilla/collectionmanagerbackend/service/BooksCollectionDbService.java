@@ -22,4 +22,8 @@ public class BooksCollectionDbService {
     public BooksCollection findById(final Long id) {
         return booksCollectionRepo.findById(id).orElse(new BooksCollection());
     }
+
+    public BooksCollection findBooksCollectionIdByUserId(final Long userId) {
+        return booksCollectionRepo.getBooksCollectionByUserId(userId);
+    }
 }

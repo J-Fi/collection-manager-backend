@@ -10,6 +10,11 @@ import javax.validation.constraints.NotNull;
 import java.util.ArrayList;
 import java.util.List;
 
+@NamedQuery(
+        name = "BooksCollection.getBooksCollectionByUserId",
+        query = "FROM BooksCollection WHERE user_Id = :USERID"
+)
+
 @Getter
 @Setter
 @AllArgsConstructor

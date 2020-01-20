@@ -3,9 +3,9 @@ package com.kodilla.collectionmanagerbackend.service;
 import com.kodilla.collectionmanagerbackend.domain.FilmDto;
 import com.kodilla.collectionmanagerbackend.omdb.client.OmdbClient;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 
-@Component
+@Service
 public class OmdbService {
 
     @Autowired

@@ -45,4 +45,18 @@ public class BookDto {
     @JsonProperty("date_published")
     private Integer publishDate;
 
+    @Override
+    public String toString() {
+        return "BookDto{" +
+                "isbn='" + isbn + '\'' +
+                ", isbn13='" + isbn13 + '\'' +
+                ", title='" + title + '\'' +
+                ", publisher='" + publisher + '\'' +
+                ", synopsys='" + synopsys + '\'' +
+                ", image='" + image + '\'' +
+                ", authors=" + authors +
+                ", subjects=" + subjects +
+                ", publishDate=" + publishDate +
+                '}';
+    }
 }

@@ -1,12 +1,10 @@
 package com.kodilla.collectionmanagerbackend.controller;
 
 import com.kodilla.collectionmanagerbackend.domain.Book;
-import com.kodilla.collectionmanagerbackend.domain.BookDto;
 import com.kodilla.collectionmanagerbackend.domain.BookFromFrontendDto;
 import com.kodilla.collectionmanagerbackend.domain.BookToFrontendDto;
 import com.kodilla.collectionmanagerbackend.mapper.BookMapper;
 import com.kodilla.collectionmanagerbackend.service.BookDbService;
-import com.kodilla.collectionmanagerbackend.service.BooksCollectionDbService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,9 +16,6 @@ public class BookController {
 
     @Autowired
     private BookDbService bookDbService;
-
-/*    @Autowired
-    private BooksCollectionDbService booksCollectionDbService;*/
 
     @Autowired
     private BookMapper bookMapper;
@@ -42,9 +37,9 @@ public class BookController {
         return bookMapper.mapBookToBookFromFrontendDto(bookDbService.saveBook(book, booksCollectionId));
     }
 
-    @PutMapping("")
-    public void updateBook() {
-
+    @PutMapping("/{booksCollectionId}/{bookId}")
+    public BookFromFrontendDto updateBook(@PathVariable Long booksCollectionId, @PathVariable Long bookId, @RequestBody BookFromFrontendDto bookFromFrontendDto) {
+        return bookMapper.mapBookToBookFromFrontendDto(bookDbService.updateBook(booksCollectionId, bookId, bookMapper.mapBookFromFrontendDtoToBook(bookFromFrontendDto)));
     }
 
     @DeleteMapping("/{id}")
